@@ -1,0 +1,3 @@
+#!/bin/bash
+
+postgres -D $AGDATA -c shared_buffers=512MB -c graph_path='docker_graph'
