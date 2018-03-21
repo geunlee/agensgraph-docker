@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-"# AgensGraph_docker" 
-=======
 ## AgensGraph Docker    
 
 # Tag Info   
@@ -34,4 +31,3 @@ agens=#  show graph_path;
 # Reference
 * AgensGraph Quick Guide : http://bitnine.net/wp-content/uploads/2017/06/html5/1.3-quick-guide.html
 * Dockfile : https://github.com/bitnineQA/agensgraph-docker/tree/master/v1.3.0
->>>>>>> 047a75c1cf2ff8967b7a009ae1846c723d055168
