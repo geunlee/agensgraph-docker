@@ -19,17 +19,15 @@ ADD AgensGraph-v1.3.1_linux.tar.gz /home/agens
 RUN mkdir -p /home/agens/scripts
 ADD entrypoint.sh /home/agens/scripts
 RUN chmod +x /home/agens/scripts/entrypoint.sh
-ADD northwind_rdb1_import.sql /home/agens/scripts
-ADD northwind_rdb2_to_gdb.sql /home/agens/scripts
 
 USER agens
 EXPOSE 5432
 
 RUN set -e;\
-    initdb; ag_ctl start; sleep 5; createdb;\
-	sleep 1;\
-	agens -q -f /home/agens/scripts/northwind_rdb1_import.sql;\
-	agens -q -f /home/agens/scripts/northwind_rdb2_to_gdb.sql;\
+    initdb;\
+	ag_ctl start; sleep 5;\
+	createdb;\
+	agens -c "create graph agens_graph";\
     ag_ctl stop
 
 ENTRYPOINT ["/home/agens/scripts/entrypoint.sh"]
