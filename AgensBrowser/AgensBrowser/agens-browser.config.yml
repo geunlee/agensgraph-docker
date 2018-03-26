@@ -28,8 +28,9 @@ agens:
   outer:
     datasource:
       driverClassName: org.postgresql.Driver
+#      url: jdbc:postgresql://27.117.163.21:15602/northwind?ApplicationName=AgensBrowser
       url: jdbc:postgresql://127.0.0.1:5432/agens?ApplicationName=AgensBrowser
-      graph_path: northwind_graph
+      graph_path: northwidn_graph
       username: agens
       password: agens
       max_rows: 1000
