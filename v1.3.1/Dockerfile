@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM ubuntu
 
 RUN apt-get update && \
     apt-get -y install build-essential libreadline-dev zlib1g-dev flex bison libkeyutils-dev libnss3 default-jre vim
@@ -12,7 +12,7 @@ RUN chmod -R 700 /home/agens
 ENV AGDATA=/home/agens/AgensGraph/data \
     PATH=/home/agens/AgensGraph/bin:$PATH \
     LD_LIBRARY_PATH=/home/agens/AgensGraph/lib:$LD_LIBRARY_PATH \
-    AGHOME=/home/agens
+    AGHOME=/home/agens/AgensGraph
 
 ADD AgensGraph-v1.3.1_linux.tar.gz /home/agens
 
