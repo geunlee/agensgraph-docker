@@ -1,28 +1,28 @@
-# 환경 변수 등록
+## 환경 변수 등록
 [root@k8s-master test]# export KUBECONFIG=$HOME/.kube/config
 
-# k8s RBAC 설정
+## k8s RBAC 설정
 [root@k8s-master test]# kubectl create -f role.yaml
 [root@k8s-master test]# kubectl create -f role-binding.yaml
 [root@k8s-master test]# kubectl create -f 00-default-admin-access.yaml
 
-# secret 생성
+## secret 생성
 [root@k8s-master test]# kubectl create -f secret.yaml
 
-# volume 설정
+## volume 설정
 [root@k8s-master test]# kubectl create -f ag_local-01.yaml
 [root@k8s-master test]# kubectl create -f ag_local-02.yaml
 
-# 클러스터 초기화
+## 클러스터 초기화
 [root@k8s-master test]# /home/bylee/dev/stolon-test/stolon/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap init
 
-# stolon-sentinel 생성
+## stolon-sentinel 생성
 [root@k8s-master test]# kubectl create -f stolon-sentinel.yaml
 
-# stolon-keeper 생성 
+## stolon-keeper 생성 
 [root@k8s-master test]# kubectl create -f stolon-keeper.yaml
 
-# stolon-keeper 확인
+## stolon-keeper 확인
 [root@k8s-master test]# docker ps -a
 CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS              PORTS               NAMES
 09d6b11b31c9        chchch888/stolon                           "/bin/bash -ec '# Ge…"   18 seconds ago      Up 16 seconds                           k8s_stolon-keeper_stolon-keeper-1_default_82fb9411-3176-11e8-8d6f-b06ebf35833a_0
@@ -61,14 +61,14 @@ ff810e8e4f67        gcr.io/google_containers/pause-amd64:3.0   "/pause"         
 2018-03-27T04:23:02.236Z    INFO    cmd/keeper.go:1054  initializing the database cluster
 
 
-# stolon-proxy 생성
+## stolon-proxy 생성
 [root@k8s-master test]# kubectl create -f stolon-proxy.yaml
 
 
-# stolon-proxy-service 생성
+## stolon-proxy-service 생성
 [root@k8s-master test]# kubectl create -f stolon-proxy-service.yaml
 
-# DB 접속
+## DB 접속
 --psql connection
 [root@k8s-master test]# kubectl get svc
 NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
@@ -91,7 +91,7 @@ postgres=# match (n) return n;
 (1 row)
 
 
-# 구성 확인
+## 구성 확인
 [root@k8s-master test]# /home/bylee/dev/stolon-test/stolon/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap status
 === Active sentinels ===
  
