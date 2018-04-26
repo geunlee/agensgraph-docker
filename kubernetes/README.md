@@ -6,7 +6,7 @@
   https://hub.docker.com/r/bitnine/stolon
   tag : master-ag1.3.1, latest
 
-1) docker 설치 (centos 기준)
+## docker 설치 (centos 기준)
 ```{}
 # master, work01, work02에 모두 설치
 $ yum install-y yum-utils device-mapper-persistent-data lvm2
@@ -15,7 +15,7 @@ $ yum install-y docker-ce
 $ systemctl enabledocker && systemctl start docker
 ```
 
-2) kubernetes 설치
+## kubernetes 설치
 ```{}
 # master, work01, work02에 모두 설치
 $ cat<<EOF > /etc/yum.repos.d/kubernetes.repo
@@ -42,12 +42,13 @@ $ cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 $ sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 $ systemctl daemon-reload && systemctl restart kubelet
 ```
-3) stolon 관련 파일 준비
+## stolon 관련 파일 준비
 ```{}
 # master node 
 git clone https://github.com/bitnineQA/agensgraph-docker.git
 -> $PATH/agensgraph-docker/kubernetes/bin , $PATH/agensgraph-docker/kubernetes/stolon 
 ```
+
 # kubernetes 구성
 
 ```{}
