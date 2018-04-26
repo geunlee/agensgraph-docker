@@ -1,4 +1,4 @@
-1. 사전준비
+# 사전준비
 
 - master, work01, work02 총 3대의 서버 필요
 - kubernetes에서 사용될 docker image 위치
@@ -7,14 +7,16 @@
   tag : master-ag1.3.1, latest
 
 1) docker 설치 (centos 기준)
-
+```{}
 # master, work01, work02에 모두 설치
 $ yum install-y yum-utils device-mapper-persistent-data lvm2
 $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 $ yum install-y docker-ce
 $ systemctl enabledocker && systemctl start docker
-2) kubernetes 설치
+```
 
+2) kubernetes 설치
+```{}
 # master, work01, work02에 모두 설치
 $ cat<<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -39,14 +41,16 @@ $ docker info | grep -i cgroup
 $ cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 $ sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 $ systemctl daemon-reload && systemctl restart kubelet
+```
 3) stolon 관련 파일 준비
-
+```{}
 # master node 
 git clone https://github.com/bitnineQA/agensgraph-docker.git
 -> $PATH/agensgraph-docker/kubernetes/bin , $PATH/agensgraph-docker/kubernetes/stolon 
+```
+# kubernetes 구성
 
-2. kubernetes 구성
-
+```{}
 # master node 
 $ swapoff -a
 $ kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.0.64
@@ -57,29 +61,30 @@ kubeadm join 192.168.0.64:6443 --token zmqf4v.9pa4vi8ph6j9umc8 --discovery-token
 
 # 네트워크 플러그인 설치
 $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-
-
+```
+```{}
 # work01, work02 모두 설정
 $ swapoff -a
 $ kubeadm join 192.168.0.64:6443 --token zmqf4v.9pa4vi8ph6j9umc8 --discovery-token-ca-cert-hash sha256:29e42e37e0456059ada08b60bb4694b7bd6bdec36fa9f4aa235c963414cc91d4
-
-
+```
+```{}
 # master node 
 $ export KUBECONFIG=/etc/kubernetes/admin.conf
 -- 예
 $ kubectl get pods --all-namespaces -o wide
 $ kubectl get nodes -o wide
-
-
+```
+```{}
 # work node 
 $ scp root@192.168.0.64:/etc/kubernetes/admin.conf .
 --예
 $ kubectl --kubeconfig ./admin.conf get pods --all-namespaces -o wide
 $ kubectl --kubeconfig ./admin.conf get nodes -o wide
+```
 
+# stolon 구성
 
-3. stolon 구성
-
+```{}
 $ cd $PATH/agensgraph-docker/kubernetes/stolon
 
 -- cluster 초기화
@@ -116,11 +121,12 @@ $ kubectl get pods --all-namespaces -o wide (상태확인)
 -- proxy-service 생성
 $ kubectl create -f stolon-proxy-service.yaml
 $ kubectl get pods --all-namespaces -o wide (상태확인)
+```
 
-
+```{}
 $PATH/bin/stolonctl  --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap status
-
-
+```
+```{}
 --접속
 # kubectl get svc
 NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
@@ -136,10 +142,11 @@ Type "help" for help.
 postgres=# create graph p;
 CREATE GRAPH
 postgres=# create (p:person {name: 'test'});
+```
 
+# fail-over 테스트
 
-4. fail-over 테스트
-
+```{}
 -- 마스터 죽이기
 $ kubectl delete statefulset stolon-keeper --cascade=false
 $ kubectl delete pod stolon-keeper-1
@@ -163,3 +170,4 @@ postgres=# match (p) return p;
 ------------------------------
  person[3.1]{"name": "test"}
 (1 row)
+```
