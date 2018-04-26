@@ -1,7 +1,7 @@
 # preparations
 
 - master, work01, work02 node
-- kubernetes에서 사용될 docker image 위치
+- Location of docker image to be used in kubernetes
 
   https://hub.docker.com/r/bitnine/stolon
   tag : master-ag1.3.1, latest
