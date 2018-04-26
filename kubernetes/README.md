@@ -1,4 +1,4 @@
-# 사전준비
+# preparations
 
 - master, work01, work02 node
 - kubernetes에서 사용될 docker image 위치
@@ -6,7 +6,7 @@
   https://hub.docker.com/r/bitnine/stolon
   tag : master-ag1.3.1, latest
 
-## docker installation (for centos)
+## docker installation (for centos7.x)
 ```{}
 # work on master, work01, work02 node
 $ yum install-y yum-utils device-mapper-persistent-data lvm2
@@ -55,7 +55,7 @@ git clone https://github.com/bitnineQA/agensgraph-docker.git
 # master node 
 $ swapoff -a
 $ kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=<server ip>
-... 중략 ...
+... skip ...
 -> The following token result is used on work node
 kubeadm join <server ip>:6443 --token zmqf4v.9pa4vi8ph6j9umc8 --discovery-token-ca-cert-hash sha256:29e42e37e0456059ada08b60bb4694b7bd6bdec36fa9f4aa235c963414cc91d4
 
@@ -71,14 +71,14 @@ $ kubeadm join <server ip>:6443 --token zmqf4v.9pa4vi8ph6j9umc8 --discovery-toke
 ```{}
 # work on master node 
 $ export KUBECONFIG=/etc/kubernetes/admin.conf
--- 예
+-- example
 $ kubectl get pods --all-namespaces -o wide
 $ kubectl get nodes -o wide
 ```
 ```{}
 # work on work node 
 $ scp root@<server ip>:/etc/kubernetes/admin.conf .
---예
+-- example
 $ kubectl --kubeconfig ./admin.conf get pods --all-namespaces -o wide
 $ kubectl --kubeconfig ./admin.conf get nodes -o wide
 ```
@@ -152,7 +152,7 @@ postgres=# create (p:person {name: 'test'});
 $ kubectl delete statefulset stolon-keeper --cascade=false
 $ kubectl delete pod stolon-keeper-1
  
--- check electing db as the new master in sentinel log
+-- check master node selection in sentinel log
 $ kubectl logs -f stolon-sentinel-7955cd85f5-fhtk4
 no keeper info available db=cb96f42d keeper=keeper1
 no keeper info available db=cb96f42d keeper=keeper1
